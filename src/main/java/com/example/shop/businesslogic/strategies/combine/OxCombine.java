@@ -43,8 +43,8 @@ public class OxCombine extends CombineStrategy
         parentHelper.clear();
         parentHelper.addAll(sl);
         child.getTranslation()[partnerA.getTranslation().length-1] = partnerA.getTranslation()[partnerA.getTranslation().length-1];
-        child.getTranslation()[0] = 0;
-        parentHelper.remove(new Integer(0));
+        child.getTranslation()[0] = partnerA.getTranslation()[0];
+        parentHelper.remove(new Integer(partnerA.getTranslation()[0]));
         parentHelper.remove(new Integer(partnerA.getTranslation()[partnerA.getTranslation().length-1]));
         while(parentHelper.size()>0)
         {
