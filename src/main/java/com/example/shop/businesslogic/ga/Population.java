@@ -11,6 +11,7 @@ import com.example.shop.businesslogic.strategies.fitnesscalculator.BasicFitnessC
 import com.example.shop.businesslogic.strategies.mutate.AdvancedMutation;
 import com.example.shop.businesslogic.strategies.mutate.BasicMutation;
 import com.example.shop.businesslogic.strategies.mutate.MutateStrategy;
+import com.example.shop.controller.SettingsDTO;
 import com.example.shop.entities.Article;
 
 import java.util.ArrayList;
@@ -35,18 +36,38 @@ public class Population
     //Settings
     //Elite
     boolean elite = true;
-    int eliteSize = 10;
+    int eliteSize = 1;
     //Strategies
     int mutationStrat = 0;
     int combineStrat = 0;
     int fitnessStrat = 0;
-    public Population(float mutationrate, int amtNodes, int popsize, Graph g)
+    int terminationStrat = 0;
+    float selectionWeight = 1f;
+
+
+    //public Population(float mutationrate, int amtNodes, int popsize, Graph g)
+    public Population(int amtNodes, Graph g, SettingsDTO settingsDTO)
     {
         rdm = new Random();
         population = new ArrayList<DNA>();
         matingPool = new ArrayList<DNA>();
         reducedIdOrder = new ArrayList<Integer>();
         generations = 0;
+        //Apply settings
+        this.g = g;
+        this.mutationrate = settingsDTO.getMutationRate();
+        this.populationSize = settingsDTO.getPopulationSize();
+        this.combineStrat = settingsDTO.getCombineStrat();
+        this.mutationStrat = settingsDTO.getMutationStrat();
+        this.fitnessStrat = settingsDTO.getFitnessStrat();
+        //TODO implement terminationStrat
+        this.terminationStrat = settingsDTO.getTerminationStrat();
+        //TODO implement selectionWeight
+        this.selectionWeight = settingsDTO.getSelectionWeight();
+        this.elite = settingsDTO.isElite();
+        this.eliteSize = settingsDTO.getEliteSize();
+        System.out.println("Settings testprint");
+        System.out.println(this);
         //Startnode
         Node startNode = g.getStartNode();
         //Endnode
@@ -102,10 +123,6 @@ public class Population
                 afc = new BasicFitnessCalculator(g);
                 break;
         }
-        //
-        this.g = g;
-        this.mutationrate = mutationrate;
-        this.populationSize = popsize;
         for (int i = 0; i < populationSize; i++)
         {
             DNA toAdd = new DNA(amtNodes, reducedIdOrder);
@@ -119,13 +136,6 @@ public class Population
         currentBestFitness = population.get(0).getFitness();
         // System.out.println(currentBestFitness);
         // generations - currentBestGeneration < 400
-        float avgfitness = 0;
-        for (DNA dna : population)
-        {
-            avgfitness += dna.getFitness();
-        }
-        avgfitness = avgfitness / population.size();
-        System.out.println("avgfitness:" + avgfitness);
 
 
     }
@@ -295,5 +305,21 @@ public class Population
     public ArrayList<DNA> getCurrentGeneration()
     {
         return population;
+    }
+
+    @Override
+    public String toString()
+    {
+        return "Population{" +
+                "mutationrate=" + mutationrate +
+                ", populationSize=" + populationSize +
+                ", elite=" + elite +
+                ", eliteSize=" + eliteSize +
+                ", mutationStrat=" + mutationStrat +
+                ", combineStrat=" + combineStrat +
+                ", fitnessStrat=" + fitnessStrat +
+                ", terminationStrat=" + terminationStrat +
+                ", selectionWeight=" + selectionWeight +
+                '}';
     }
 }

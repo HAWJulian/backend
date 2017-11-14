@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 @Service
 public class NodeService
@@ -30,4 +31,11 @@ public class NodeService
         ArrayList<Long> nodeIdsInSupermarket = supermarketRepository.findOne(supermarketId).getNodeIds();
         return nodeRepository.findByObjectIds(nodeIdsInSupermarket);
     }
+    /*
+    public ArrayList<SupermarketNode> findAllNodesWithArticlesInSupermarket (long supermarketId)
+    {
+        //ArrayList<>
+        return new ArrayList<SupermarketNode>();
+    }
+    */
 }

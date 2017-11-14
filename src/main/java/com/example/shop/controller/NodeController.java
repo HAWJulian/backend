@@ -1,5 +1,6 @@
 package com.example.shop.controller;
 
+import com.example.shop.entities.Supermarket;
 import com.example.shop.entities.SupermarketNode;
 import com.example.shop.services.NodeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,8 @@ public class NodeController
 
     @GetMapping(value="/nodes/{id}", produces=MediaType.APPLICATION_JSON_VALUE)
     public ArrayList<SupermarketNode> findAllNodesInShop(@PathVariable long id){ return nodeService.findAllNodesInSupermarket(id); }
-
-
+    /*
+    @GetMapping(value="/nodes/complete/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ArrayList<SupermarketNode> findAllNodesWithArticles (@PathVariable long id) {return nodeService.findAllNodesWithArticlesInSupermarket(id);}
+    */
 }

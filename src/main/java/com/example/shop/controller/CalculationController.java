@@ -19,7 +19,9 @@ public class CalculationController
     //public void startCalculation(@RequestBody Long supermarketId, @RequestBody ArrayList<Long> shoppingCart)
     public ArrayList<Integer> startCalculation(@RequestBody CalculationDTO dto)
     {
-        return calculationService.startCalculation(dto.getSupermarketId(), dto.getShoppingCart());
+        System.out.println("dto debug print");
+        System.out.println(dto.getSettingsDTO());
+        return calculationService.startCalculation(dto.getSupermarketId(), dto.getShoppingCart(), dto.getSettingsDTO());
     }
 
 }

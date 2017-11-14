@@ -7,6 +7,17 @@ public class CalculationDTO
 {
     private long supermarketId;
     private ArrayList<Long> shoppingCart;
+    private  SettingsDTO settingsDTO;
+
+    public SettingsDTO getSettingsDTO()
+    {
+        return settingsDTO;
+    }
+
+    public void setSettingsDTO(SettingsDTO settingsDTO)
+    {
+        this.settingsDTO = settingsDTO;
+    }
 
     public long getSupermarketId()
     {
