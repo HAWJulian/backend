@@ -11,6 +11,7 @@ import com.example.shop.businesslogic.strategies.fitnesscalculator.BasicFitnessC
 import com.example.shop.businesslogic.strategies.mutate.AdvancedMutation;
 import com.example.shop.businesslogic.strategies.mutate.BasicMutation;
 import com.example.shop.businesslogic.strategies.mutate.MutateStrategy;
+import com.example.shop.businesslogic.strategies.termination.*;
 import com.example.shop.controller.SettingsDTO;
 import com.example.shop.entities.Article;
 
@@ -32,6 +33,7 @@ public class Population
     AbstractFitnessCalculator afc;
     CombineStrategy cs;
     MutateStrategy ms;
+    TerminationStrategy ts;
     ArrayList<Integer> reducedIdOrder;
     //Settings
     //Elite
@@ -61,8 +63,12 @@ public class Population
         this.mutationStrat = settingsDTO.getMutationStrat();
         this.fitnessStrat = settingsDTO.getFitnessStrat();
         //TODO implement terminationStrat
+        //#iterations no improvement
+        //#iterations
+        //t no improvement
+        //t
+
         this.terminationStrat = settingsDTO.getTerminationStrat();
-        //TODO implement selectionWeight
         this.selectionWeight = settingsDTO.getSelectionWeight();
         this.elite = settingsDTO.isElite();
         this.eliteSize = settingsDTO.getEliteSize();
@@ -123,6 +129,30 @@ public class Population
                 afc = new BasicFitnessCalculator(g);
                 break;
         }
+        System.out.println("termination strat");
+        switch (terminationStrat)
+        {
+            case 0:
+                System.out.println("0");
+                ts = new NoImprovementTermination(settingsDTO.getTerminationParam());
+                break;
+            case 1:
+                System.out.println("1");
+                ts = new IterationTermination(settingsDTO.getTerminationParam());
+                break;
+            case 2:
+                System.out.println("2");
+                ts = new TimeTermination(settingsDTO.getTerminationParam());
+                break;
+            case 3:
+                System.out.println("3");
+                ts = new TimeNoImprovementTermination(settingsDTO.getTerminationParam());
+                break;
+            default:
+                System.out.println("default");
+                ts = new NoImprovementTermination(10);
+                break;
+        }
         for (int i = 0; i < populationSize; i++)
         {
             DNA toAdd = new DNA(amtNodes, reducedIdOrder);
@@ -149,14 +179,15 @@ public class Population
     }
     public DNA execute()
     {
-        while (generations < 3000)
+        while (!ts.checkTermination())
         {
-            //System.out.println("new generation");
             generateNewGeneration();
+            ts.update(population);
         }
 
         System.out.println("best result: " + currentBestFitness + " in " + generations + " iterations");
         System.out.println(population.get(0));
+        System.out.println("total amt generations " + generations);
         return population.get(0);
     }
     // Alternative Implementierungsmöglichkeiten:
@@ -176,7 +207,7 @@ public class Population
             float relativeFitness = remap(population.get(i).getFitness(), currentBestFitness,
                     population.get(populationSize - 1).getFitness(), 1, 0);
             // System.out.println("relativeFitness: " + relativeFitness);
-            int n = Math.round(relativeFitness * 100);
+            long n = Math.round(Math.pow(relativeFitness, selectionWeight) * 100);
             for (int j = 0; j < n; j++)
             {
                 matingPool.add(population.get(i));

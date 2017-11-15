@@ -20,6 +20,7 @@ public class AdvancedFitnessCalculator extends AbstractFitnessCalculator
     int worstCaseCooling;
     float plWeight = 0.9998f;
     float coolingWeight = 0.0002f;
+
     public AdvancedFitnessCalculator(Graph g)
     {
         super(g);

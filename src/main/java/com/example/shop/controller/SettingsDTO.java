@@ -3,20 +3,28 @@ package com.example.shop.controller;
 public class SettingsDTO
 {
     //Strats
+    //Switch case @Population
     private int combineStrat;
     private int mutationStrat;
     private int fitnessStrat;
     private int terminationStrat;
     //TODO Strat specific settings
+    private int terminationParam;
 
     //Elite
+    //Gibt es eine Elite?
     private boolean elite;
+    //Wenn ja, wie viele Elemente?
+    //Darf nicht größer sein als populationSize
     private int eliteSize;
     //General
+    //Anzahl DNA in einer Generation
     private int populationSize;
+    //Wahrscheinlichkeit der Mutation
     private float mutationRate;
+    //Gewichtung bei der Selektion - 0 = keine Gewichtung, 1 = linear
     private float selectionWeight;
-
+    //region getterandsetter
     public int getCombineStrat()
     {
         return combineStrat;
@@ -55,6 +63,16 @@ public class SettingsDTO
     public void setTerminationStrat(int terminationStrat)
     {
         this.terminationStrat = terminationStrat;
+    }
+
+    public int getTerminationParam()
+    {
+        return terminationParam;
+    }
+
+    public void setTerminationParam(int terminationParam)
+    {
+        this.terminationParam = terminationParam;
     }
 
     public boolean isElite()
@@ -106,7 +124,7 @@ public class SettingsDTO
     {
         this.selectionWeight = selectionWeight;
     }
-
+    //endregion
     @Override
     public String toString()
     {
@@ -115,6 +133,7 @@ public class SettingsDTO
                 ", mutationStrat=" + mutationStrat +
                 ", fitnessStrat=" + fitnessStrat +
                 ", terminationStrat=" + terminationStrat +
+                ", terminationParam=" + terminationParam +
                 ", elite=" + elite +
                 ", eliteSize=" + eliteSize +
                 ", populationSize=" + populationSize +
