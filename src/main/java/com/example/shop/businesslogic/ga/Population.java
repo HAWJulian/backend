@@ -150,7 +150,7 @@ public class Population
                 break;
             default:
                 System.out.println("default");
-                ts = new NoImprovementTermination(10);
+                ts = new NoImprovementTermination(100);
                 break;
         }
         for (int i = 0; i < populationSize; i++)
@@ -181,6 +181,7 @@ public class Population
     {
         while (!ts.checkTermination())
         {
+            System.out.println("Iteration: " + generations);
             generateNewGeneration();
             ts.update(population);
         }

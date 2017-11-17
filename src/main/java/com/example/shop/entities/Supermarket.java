@@ -20,14 +20,16 @@ public class Supermarket implements Serializable
     @Column(name = "nodes")
     private node[][] nodes;
     */
-
+    @Column(name = "dimension")
+    private int rows;
     protected Supermarket()
     {
     }
 
-    public Supermarket(ArrayList<Long> nodeIds)
+    public Supermarket(ArrayList<Long> nodeIds, int rows)
     {
         this.nodeIds = nodeIds;
+        this.rows = rows;
     }
 
     //Getter
@@ -35,11 +37,17 @@ public class Supermarket implements Serializable
     {
         return nodeIds;
     }
-
+    public int getDimension()
+    {
+        return this.rows;
+    }
     //Setter
     public void setNodes(ArrayList<Long> nodeIds)
     {
         this.nodeIds = nodeIds;
     }
-
+    public void setDimension(int rows)
+    {
+        this.rows = rows;
+    }
 }

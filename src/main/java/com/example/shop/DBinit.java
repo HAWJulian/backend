@@ -353,14 +353,13 @@ public class DBinit implements ApplicationListener<ApplicationReadyEvent>
         }
         if(supermarketRepository.count()==0)
         {
-            ArrayList<Supermarket> s = new ArrayList<Supermarket>();
             ArrayList<Long> nodeids = new ArrayList<>();
             for (long i = 1; i < 179; i++)
             {
                 nodeids.add(i);
             }
-            s.add(new Supermarket(nodeids));
-            supermarketRepository.save(s);
+            Supermarket supermarket = new Supermarket(nodeids,11);
+            supermarketRepository.save(supermarket);
         }
         return;
     }
