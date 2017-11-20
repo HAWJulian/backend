@@ -15,6 +15,7 @@ import com.example.shop.businesslogic.strategies.termination.*;
 import com.example.shop.controller.SettingsDTO;
 import com.example.shop.entities.Article;
 
+import javax.xml.transform.Result;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
@@ -45,11 +46,12 @@ public class Population
     int fitnessStrat = 0;
     int terminationStrat = 0;
     float selectionWeight = 1f;
-
+    private ArrayList<ResultDTO> results;
 
     //public Population(float mutationrate, int amtNodes, int popsize, Graph g)
     public Population(int amtNodes, Graph g, SettingsDTO settingsDTO)
     {
+        results = new ArrayList<ResultDTO>();
         rdm = new Random();
         population = new ArrayList<DNA>();
         matingPool = new ArrayList<DNA>();
@@ -129,6 +131,7 @@ public class Population
                 afc = new BasicFitnessCalculator(g);
                 break;
         }
+        afc.setup(settingsDTO.getFitnessParam());
         System.out.println("termination strat");
         switch (terminationStrat)
         {
@@ -177,11 +180,10 @@ public class Population
             afc.calculateFitness(dna);
         }
     }
-    public DNA execute()
+    public ArrayList<ResultDTO> execute()
     {
         while (!ts.checkTermination())
         {
-            System.out.println("Iteration: " + generations);
             generateNewGeneration();
             ts.update(population);
         }
@@ -189,7 +191,7 @@ public class Population
         System.out.println("best result: " + currentBestFitness + " in " + generations + " iterations");
         System.out.println(population.get(0));
         System.out.println("total amt generations " + generations);
-        return population.get(0);
+        return results;
     }
     // Alternative Implementierungsmöglichkeiten:
     // Schlechte DNA nicht dem matingpool hinzufügen
@@ -281,7 +283,7 @@ public class Population
             System.out.println("new best fitness: " + population.get(0).getFitness() + ", pathlength: "
                     + population.get(0).getPathLength() + " in iteration " + generations);
             //Print der cooling verteilung einer DNA
-
+            results.add(new ResultDTO(population.get(0), generations));
             ArrayList<Integer> cooling = new ArrayList<Integer>();
             for (Integer i : population.get(0).getTranslation())
             {

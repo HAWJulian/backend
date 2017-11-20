@@ -1,5 +1,7 @@
 package com.example.shop.controller;
 
+import java.util.ArrayList;
+
 public class SettingsDTO
 {
     //Strats
@@ -8,7 +10,8 @@ public class SettingsDTO
     private int mutationStrat;
     private int fitnessStrat;
     private int terminationStrat;
-    //TODO Strat specific settings
+    //TODO more strat specific settings?
+    private ArrayList<Float> fitnessParam;
     private int terminationParam;
 
     //Elite
@@ -124,7 +127,19 @@ public class SettingsDTO
     {
         this.selectionWeight = selectionWeight;
     }
+
+    public ArrayList<Float> getFitnessParam()
+    {
+        return fitnessParam;
+    }
+
+    public void setFitnessParam(ArrayList<Float> fitnessParam)
+    {
+        this.fitnessParam = fitnessParam;
+    }
+
     //endregion
+
     @Override
     public String toString()
     {
@@ -133,6 +148,7 @@ public class SettingsDTO
                 ", mutationStrat=" + mutationStrat +
                 ", fitnessStrat=" + fitnessStrat +
                 ", terminationStrat=" + terminationStrat +
+                ", fitnessParam=" + fitnessParam +
                 ", terminationParam=" + terminationParam +
                 ", elite=" + elite +
                 ", eliteSize=" + eliteSize +

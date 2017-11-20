@@ -18,8 +18,8 @@ public class AdvancedFitnessCalculator extends AbstractFitnessCalculator
     ArrayList<Integer> coolingValues;
     int bestCaseCooling;
     int worstCaseCooling;
-    float plWeight = 0.9998f;
-    float coolingWeight = 0.0002f;
+    private float plWeight;
+    private float coolingWeight;
 
     public AdvancedFitnessCalculator(Graph g)
     {
@@ -52,7 +52,12 @@ public class AdvancedFitnessCalculator extends AbstractFitnessCalculator
         calculateBestCaseCooling();
         calculateWorstCaseCooling();
     }
-
+    @Override
+    public void setup(ArrayList<Float> weights)
+    {
+        plWeight = weights.get(0);
+        coolingWeight = weights.get(1);
+    }
     private void calculateBestCaseCooling()
     {
         bestCaseCooling =0;

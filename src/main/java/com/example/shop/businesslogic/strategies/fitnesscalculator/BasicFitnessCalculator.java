@@ -5,6 +5,8 @@ import com.example.shop.businesslogic.graphgen.Edge;
 import com.example.shop.businesslogic.graphgen.Graph;
 import com.example.shop.businesslogic.graphgen.Node;
 
+import java.util.ArrayList;
+
 public class BasicFitnessCalculator extends AbstractFitnessCalculator
 {
     public BasicFitnessCalculator(Graph g)
@@ -41,5 +43,11 @@ public class BasicFitnessCalculator extends AbstractFitnessCalculator
         float fitness = (1f / fit) * 100 * dna.getGenes().length;
         dna.setFitness(fitness);
         return fitness;
+    }
+
+    @Override
+    public void setup(ArrayList<Float> weights)
+    {
+
     }
 }
