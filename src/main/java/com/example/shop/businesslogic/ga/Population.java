@@ -13,6 +13,7 @@ import com.example.shop.businesslogic.strategies.fitnesscalculator.GenerationInt
 import com.example.shop.businesslogic.strategies.mutate.AdvancedMutation;
 import com.example.shop.businesslogic.strategies.mutate.BasicMutation;
 import com.example.shop.businesslogic.strategies.mutate.MutateStrategy;
+import com.example.shop.businesslogic.strategies.mutate.RandomSwapMutation;
 import com.example.shop.businesslogic.strategies.termination.*;
 import com.example.shop.controller.SettingsDTO;
 import com.example.shop.entities.Article;
@@ -119,6 +120,9 @@ public class Population
                 break;
             case 1:
                 ms = new AdvancedMutation();
+                break;
+            case 2:
+                ms = new RandomSwapMutation();
                 break;
             default:
                 ms = new BasicMutation();
