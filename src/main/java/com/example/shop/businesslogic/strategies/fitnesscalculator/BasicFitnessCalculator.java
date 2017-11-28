@@ -46,6 +46,12 @@ public class BasicFitnessCalculator extends AbstractFitnessCalculator
     }
 
     @Override
+    public void evaluateGeneration(ArrayList<DNA> generation)
+    {
+
+    }
+
+    @Override
     public void setup(ArrayList<Float> weights)
     {
 

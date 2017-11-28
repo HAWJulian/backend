@@ -153,4 +153,10 @@ public class AdvancedFitnessCalculator extends AbstractFitnessCalculator
         dna.setFitness(fit);
         return fit;
     }
+
+    @Override
+    public void evaluateGeneration(ArrayList<DNA> generation)
+    {
+
+    }
 }

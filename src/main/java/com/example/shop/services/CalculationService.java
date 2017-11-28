@@ -98,7 +98,7 @@ public class CalculationService
         for (ResultDTO result : results)
         {
             result.setPath(gc.calculateTourOnOriginalGraph(g,result.getDna()));
-            System.out.println(result);
+            //System.out.println(result);
         }
         return results;
     }

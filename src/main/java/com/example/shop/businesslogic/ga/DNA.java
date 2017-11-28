@@ -17,6 +17,7 @@ public class DNA implements Comparable<DNA>
     //Beispiel: 0,1,1,2,5,6 => 0*1 + 1*2 + 1*3 + 2*4 + 5*5 + 6*6
     //Die Werte ^ sind abhängig von der Implementierung des FitnessCalculators
     private int cooling;
+    private ArrayList<Integer> coolingOrder;
     private ArrayList<Integer> reducedIdOrder;
     private Random rdm;
     public DNA(int size, ArrayList<Integer> reducedIdOrder)
@@ -99,6 +100,25 @@ public class DNA implements Comparable<DNA>
     {
         return reducedIdOrder;
     }
+    public ArrayList<Integer> getCoolingOrder()
+    {
+        return coolingOrder;
+    }
+    public void setCoolingOrder(ArrayList<Integer> coolingOrder)
+    {
+        this.coolingOrder = coolingOrder;
+    }
+
+    public int getCooling()
+    {
+        return cooling;
+    }
+
+    public void setCooling(int cooling)
+    {
+        this.cooling = cooling;
+    }
+
     //Alternative Implementierungsmöglichkeiten:
     //Mutation anders implementieren als durch Vertauschen zweier Elemente
     //Mutate auf Genes durch Zufallszahl

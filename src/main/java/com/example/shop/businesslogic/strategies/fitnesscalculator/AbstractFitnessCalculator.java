@@ -18,4 +18,5 @@ public abstract class AbstractFitnessCalculator
     }
     public abstract void setup(ArrayList<Float> weights);
     public abstract float calculateFitness(DNA dna);
+    public abstract void evaluateGeneration(ArrayList<DNA> generation);
 }

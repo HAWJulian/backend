@@ -8,6 +8,7 @@ import com.example.shop.businesslogic.strategies.combine.OxCombine;
 import com.example.shop.businesslogic.strategies.fitnesscalculator.AbstractFitnessCalculator;
 import com.example.shop.businesslogic.strategies.fitnesscalculator.AdvancedFitnessCalculator;
 import com.example.shop.businesslogic.strategies.fitnesscalculator.BasicFitnessCalculator;
+import com.example.shop.businesslogic.strategies.fitnesscalculator.GenerationInternFitnessCalculator;
 import com.example.shop.businesslogic.strategies.mutate.AdvancedMutation;
 import com.example.shop.businesslogic.strategies.mutate.BasicMutation;
 import com.example.shop.businesslogic.strategies.mutate.MutateStrategy;
@@ -127,6 +128,9 @@ public class Population
             case 1:
                 afc = new AdvancedFitnessCalculator(g);
                 break;
+            case 2:
+                afc = new GenerationInternFitnessCalculator(g);
+                break;
             default:
                 afc = new BasicFitnessCalculator(g);
                 break;
@@ -175,6 +179,7 @@ public class Population
 
     private void calculateFitness()
     {
+        afc.evaluateGeneration(population);
         for (DNA dna : population)
         {
             afc.calculateFitness(dna);
