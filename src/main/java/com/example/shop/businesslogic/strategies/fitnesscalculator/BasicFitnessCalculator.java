@@ -21,26 +21,9 @@ public class BasicFitnessCalculator extends AbstractFitnessCalculator
         // Inverse dazu definiert
         // damit eine größere Fitness einem besseren Pfad entspricht
 
-        int fit = 0;
-        for (int i = 0; i < dna.getGenes().length - 1; i++)
-        {
-            Node start = g.getNodeById(dna.getTranslation()[i]);
-            // SupermarketNode start = g.getNodes().get(dna.getTranslation()[i]);
-            Node end = g.getNodeById(dna.getTranslation()[i + 1]);
-            // SupermarketNode end = g.getNodes().get(dna.getTranslation()[i+1]);
-            for (Edge e : g.getEdges())
-            {
-                // Überprüft die objectid, da Objekte u.U. kopiert worden sind
-                // (und somit die überprüfung auf die Objektinstanz nicht
-                // erfolgreich ist)
-                if (e.containsNodeId(start.getObjectId()) && e.containsNodeId(end.getObjectId()))
-                {
-                    fit += e.getWeight();
-                }
-            }
-        }
+        int fit = super.calculatePathlength(dna);
         dna.setPathLength(fit);
-        float fitness = (1f / fit) * 100 * dna.getGenes().length;
+        float fitness = (1f / fit);
         dna.setFitness(fitness);
         return fitness;
     }

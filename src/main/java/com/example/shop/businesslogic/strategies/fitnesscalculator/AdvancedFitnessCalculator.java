@@ -12,8 +12,7 @@ import java.util.Collections;
 public class AdvancedFitnessCalculator extends AbstractFitnessCalculator
 {
     //Werte die pro fridge/freezer Produkt einer Node summiert werden (NOCOOLING = 0)
-    static final int fridgeCoolingValue = 1;
-    static final int freezerCoolingValue = 5;
+
     int sumEdges = 0;
     ArrayList<Integer> coolingValues;
     int bestCaseCooling;
@@ -39,11 +38,11 @@ public class AdvancedFitnessCalculator extends AbstractFitnessCalculator
             {
                 if(a.getCooling() == 1)
                 {
-                    coolingValueNode+=fridgeCoolingValue;
+                    coolingValueNode+=super.fridgeCoolingValue;
                 }
                 else if(a.getCooling() == 2)
                 {
-                    coolingValueNode+=freezerCoolingValue;
+                    coolingValueNode+=super.freezerCoolingValue;
                 }
             }
             coolingValues.add(coolingValueNode);
@@ -81,19 +80,6 @@ public class AdvancedFitnessCalculator extends AbstractFitnessCalculator
         }
         System.out.println(worstCaseCooling);
     }
-    private float calculateCoolingValue(ArrayList<Integer> coolingOrder)
-    {
-        //Hält den absoluten Punktewert, der die Reihenfolge der besuchten Nodes in Hinsicht auf
-        //die benötigte Kühlung bewertet
-        int dnaCooling = 0;
-        for(int i = 0; i < coolingOrder.size(); i++)
-        {
-            dnaCooling+=(i+1) * coolingOrder.get(i);
-        }
-        float result = (float) (dnaCooling-worstCaseCooling)/(float) (bestCaseCooling-worstCaseCooling);
-        //System.out.println(result);
-        return result;
-    }
     //Modell: a-pl = x
     //> x * plgewichtung + x * (0-1) * (gewichtung) + x * (0-1) * (gewichtung)
     //> Summe aller Gewichtungen = 1
@@ -101,55 +87,17 @@ public class AdvancedFitnessCalculator extends AbstractFitnessCalculator
     @Override
     public float calculateFitness(DNA dna)
     {
-        int pathlength = 0;
-        for (int i = 0; i < dna.getGenes().length - 1; i++)
-        {
-            Node start = g.getNodeById(dna.getTranslation()[i]);
-            Node end = g.getNodeById(dna.getTranslation()[i + 1]);
-            for (Edge e : g.getEdges())
-            {
-                // Überprüft die objectid, da Objekte u.U. kopiert worden sind
-                // (und somit die überprüfung auf die Objektinstanz nicht
-                // erfolgreich ist)
-                if (e.containsNodeId(start.getObjectId()) && e.containsNodeId(end.getObjectId()))
-                {
-                    pathlength += e.getWeight();
-                }
-            }
-        }
+        int pathlength = super.calculatePathlength(dna);
         dna.setPathLength(pathlength);
         //War vorher (sumedges - pathlength), muss lediglich eine große Zahl - fit stehen,
         //damit der absolute Unterschied der Fitnesswerte verschwindend gering ist
         //
         int x = 100000 - pathlength;
-        ArrayList<Integer> coolingOrder = new ArrayList<Integer>();
-        for (Integer i : dna.getTranslation())
-        {
-            Node n = g.getNodeById(i);
-            //Summe der Kühlfaktoren in einer Node, bestimmt über die in der Node liegenden Artikel
-            int nodeCooling = 0;
-            for (Article a : n.getArticles())
-            {
-                if(a.getCooling() == 1)
-                {
-                    nodeCooling+=fridgeCoolingValue;
-                }
-                else if(a.getCooling() == 2)
-                {
-                    nodeCooling+=freezerCoolingValue;
-                }
-            }
-            coolingOrder.add(nodeCooling);
-        }
         //System.out.println(coolingOrder);
-        float coolingValue = calculateCoolingValue(coolingOrder);
+        float coolingValue = super.calculateCooling(dna);
+        coolingValue = (coolingValue-worstCaseCooling)/(float) (bestCaseCooling-worstCaseCooling);
         int fit = Math.round(x*plWeight+x*coolingValue*coolingWeight);
-		/*
-		System.out.println("base: " + x + "(100.000-" + pathlength+") = " + (100000-pathlength));
-		System.out.println("x*plweight+x*coolingvalue*coolingweight");
-		System.out.println((100000-pathlength) +"*"+plWeight+"+"+(100000-pathlength)+"*"+coolingValue+"*"+coolingWeight);
-		System.out.println(fit);
-		*/
+
         dna.setFitness(fit);
         return fit;
     }

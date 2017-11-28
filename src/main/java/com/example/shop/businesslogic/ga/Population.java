@@ -14,6 +14,10 @@ import com.example.shop.businesslogic.strategies.mutate.AdvancedMutation;
 import com.example.shop.businesslogic.strategies.mutate.BasicMutation;
 import com.example.shop.businesslogic.strategies.mutate.MutateStrategy;
 import com.example.shop.businesslogic.strategies.mutate.RandomSwapMutation;
+import com.example.shop.businesslogic.strategies.replacement.BestIndividualsReplacement;
+import com.example.shop.businesslogic.strategies.replacement.ChildrenReplacement;
+import com.example.shop.businesslogic.strategies.replacement.RandomReplacement;
+import com.example.shop.businesslogic.strategies.replacement.ReplacementStrategy;
 import com.example.shop.businesslogic.strategies.termination.*;
 import com.example.shop.controller.SettingsDTO;
 import com.example.shop.entities.Article;
@@ -38,6 +42,7 @@ public class Population
     CombineStrategy cs;
     MutateStrategy ms;
     TerminationStrategy ts;
+    ReplacementStrategy rs;
     ArrayList<Integer> reducedIdOrder;
     //Settings
     //Elite
@@ -48,6 +53,7 @@ public class Population
     int combineStrat = 0;
     int fitnessStrat = 0;
     int terminationStrat = 0;
+    int replacementStrat = 0;
     float selectionWeight = 1f;
     private ArrayList<ResultDTO> results;
 
@@ -67,6 +73,7 @@ public class Population
         this.combineStrat = settingsDTO.getCombineStrat();
         this.mutationStrat = settingsDTO.getMutationStrat();
         this.fitnessStrat = settingsDTO.getFitnessStrat();
+        this.replacementStrat = settingsDTO.getReplacementStrat();
         //TODO implement terminationStrat
         //#iterations no improvement
         //#iterations
@@ -168,6 +175,21 @@ public class Population
                 ts = new NoImprovementTermination(100);
                 break;
         }
+        switch (replacementStrat)
+        {
+            case 0:
+                rs = new ChildrenReplacement();
+                break;
+            case 1:
+                rs = new BestIndividualsReplacement();
+                break;
+            case 2:
+                rs = new RandomReplacement();
+                break;
+            default:
+                rs = new ChildrenReplacement();
+                break;
+        }
         for (int i = 0; i < populationSize; i++)
         {
             DNA toAdd = new DNA(amtNodes, reducedIdOrder);
@@ -191,6 +213,15 @@ public class Population
         for (DNA dna : population)
         {
             afc.calculateFitness(dna);
+        }
+    }
+    private void calcFitnessChildren(ArrayList<DNA> children)
+    {
+        for (DNA child : children)
+        {
+            afc.calculatePathlength(child);
+            afc.calculateCooling(child);
+            afc.calculateFitness(child);
         }
     }
     public ArrayList<ResultDTO> execute()
@@ -252,6 +283,7 @@ public class Population
 
     private void generateNewGeneration()
     {
+        //TODO Elite nur sinnvoll bei children replacement!
         selection();
         ArrayList<DNA> nextGeneration = new ArrayList<DNA>();
         //Eliten übertragung
@@ -284,8 +316,10 @@ public class Population
                 nextGeneration.add(child);
             }
         }
-        population.clear();
-        population.addAll(nextGeneration);
+        //population.clear();
+        //population.addAll(nextGeneration);
+        calcFitnessChildren(nextGeneration);
+        population = rs.replace(population,nextGeneration);
         // berechnet die fitness aller DNA Objekte in population
         calculateFitness();
         // Sortiert nach der fitness (aufsteigend, je niedriger desto besser)
@@ -332,22 +366,6 @@ public class Population
         }
     }
 
-    public DNA bestResult()
-    {
-        return population.get(0);
-    }
-
-    public DNA secondBestResult()
-    {
-        for (DNA adna : population)
-        {
-            if (adna.getFitness() > currentBestFitness)
-            {
-                return adna;
-            }
-        }
-        return null;
-    }
 
     public ArrayList<DNA> getCurrentGeneration()
     {

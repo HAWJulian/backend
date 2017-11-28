@@ -9,14 +9,12 @@ public class RandomSwapMutation extends MutateStrategy
     {
         if(rdm.nextFloat()<mutationRate)
         {
-            System.out.println("mutate!");
-            System.out.println(dna);
-            int startSwap = rdm.nextInt(dna.getGenes().length);
-            int endSwap = rdm.nextInt(dna.getGenes().length);
+            //Random index zwischen 2. und vorletzter Position (exklusive 1. und letzter position)
+            int startSwap = 1+rdm.nextInt(dna.getGenes().length-2);
+            int endSwap = 1+rdm.nextInt(dna.getGenes().length-2);
             int temp = dna.getTranslation()[startSwap];
             dna.getTranslation()[startSwap] = dna.getTranslation()[endSwap];
             dna.getTranslation()[endSwap] = temp;
-            System.out.println(dna);
             dna.calculateGenes();
         }
         return dna;

@@ -10,6 +10,7 @@ public class SettingsDTO
     private int mutationStrat;
     private int fitnessStrat;
     private int terminationStrat;
+    private int replacementStrat;
     //TODO more strat specific settings?
     private ArrayList<Float> fitnessParam;
     private int terminationParam;
@@ -138,7 +139,17 @@ public class SettingsDTO
         this.fitnessParam = fitnessParam;
     }
 
+    public int getReplacementStrat()
+    {
+        return replacementStrat;
+    }
+
+    public void setReplacementStrat(int replacementStrat)
+    {
+        this.replacementStrat = replacementStrat;
+    }
     //endregion
+
 
     @Override
     public String toString()
@@ -148,6 +159,7 @@ public class SettingsDTO
                 ", mutationStrat=" + mutationStrat +
                 ", fitnessStrat=" + fitnessStrat +
                 ", terminationStrat=" + terminationStrat +
+                ", replacementStrat=" + replacementStrat +
                 ", fitnessParam=" + fitnessParam +
                 ", terminationParam=" + terminationParam +
                 ", elite=" + elite +

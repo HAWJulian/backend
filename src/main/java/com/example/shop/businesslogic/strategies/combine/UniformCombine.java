@@ -28,9 +28,6 @@ public class UniformCombine extends CombineStrategy
                 childGenes[i] = partnerB.getGenes()[i];
             }
         }
-        System.out.println(mask.length);
-        System.out.println(partnerA.getGenes().length);
-
         child.setGenes(childGenes);
         child.calculateTranslation();
         return child;
