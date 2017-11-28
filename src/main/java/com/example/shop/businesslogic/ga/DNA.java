@@ -76,6 +76,7 @@ public class DNA implements Comparable<DNA>
     {
         return genes;
     }
+    public void setGenes(Integer[] genes) {this.genes = genes;}
     public float getFitness()
     {
         return fitness;
@@ -88,6 +89,7 @@ public class DNA implements Comparable<DNA>
     {
         return translation;
     }
+    public void setTranslation(Integer[] translation){this.translation = translation;}
     public int getPathLength()
     {
         return pathLength;

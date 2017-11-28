@@ -116,9 +116,10 @@ public class GraphCalculator
                 index = end.getShortestPaths()[index];
             }
         }
+        /*
         System.out.print("path in original graph: ");
         System.out.println(originalTour);
-
+        */
 
         return originalTour;
     }

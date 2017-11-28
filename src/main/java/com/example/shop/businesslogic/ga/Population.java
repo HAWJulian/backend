@@ -5,6 +5,7 @@ import com.example.shop.businesslogic.graphgen.Node;
 import com.example.shop.businesslogic.strategies.combine.BasicCombine;
 import com.example.shop.businesslogic.strategies.combine.CombineStrategy;
 import com.example.shop.businesslogic.strategies.combine.OxCombine;
+import com.example.shop.businesslogic.strategies.combine.UniformCombine;
 import com.example.shop.businesslogic.strategies.fitnesscalculator.AbstractFitnessCalculator;
 import com.example.shop.businesslogic.strategies.fitnesscalculator.AdvancedFitnessCalculator;
 import com.example.shop.businesslogic.strategies.fitnesscalculator.BasicFitnessCalculator;
@@ -102,6 +103,9 @@ public class Population
             case 1:
                 System.out.println("case 1");
                 cs = new OxCombine();
+                break;
+            case 2:
+                cs = new UniformCombine();
                 break;
             default:
                 System.out.println("default");
