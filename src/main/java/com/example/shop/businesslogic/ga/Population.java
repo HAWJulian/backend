@@ -60,6 +60,7 @@ public class Population
     //public Population(float mutationrate, int amtNodes, int popsize, Graph g)
     public Population(int amtNodes, Graph g, SettingsDTO settingsDTO)
     {
+        System.out.println("started population");
         results = new ArrayList<ResultDTO>();
         rdm = new Random();
         population = new ArrayList<DNA>();
@@ -203,7 +204,10 @@ public class Population
         currentBestFitness = population.get(0).getFitness();
         // System.out.println(currentBestFitness);
         // generations - currentBestGeneration < 400
-
+        //TODO fitness scaling?
+        //TODO Duplcates?
+        //TODO strategies
+        //TODO selection strategy impl?
 
     }
 

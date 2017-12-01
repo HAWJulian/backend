@@ -17,6 +17,8 @@ public class BasicFitnessCalculator extends AbstractFitnessCalculator
     @Override
     public float calculateFitness(DNA dna)
     {
+        int cooling = super.calculateCooling(dna);
+        dna.setCoolingPercent((float)cooling/(super.bestCaseCooling-super.worstCaseCooling));
         // Fit entspricht zunächst der Länge des Pfades, die Fitness wird als
         // Inverse dazu definiert
         // damit eine größere Fitness einem besseren Pfad entspricht

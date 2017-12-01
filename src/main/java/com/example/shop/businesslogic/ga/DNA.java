@@ -18,6 +18,7 @@ public class DNA implements Comparable<DNA>
     //Die Werte ^ sind abhängig von der Implementierung des FitnessCalculators
     private int cooling;
     private ArrayList<Integer> coolingOrder;
+    private float coolingPercent;
     private ArrayList<Integer> reducedIdOrder;
     private Random rdm;
     public DNA(int size, ArrayList<Integer> reducedIdOrder)
@@ -110,15 +111,21 @@ public class DNA implements Comparable<DNA>
     {
         this.coolingOrder = coolingOrder;
     }
-
     public int getCooling()
     {
         return cooling;
     }
-
     public void setCooling(int cooling)
     {
         this.cooling = cooling;
+    }
+    public float getCoolingPercent()
+    {
+        return coolingPercent;
+    }
+    public void setCoolingPercent(float coolingPercent)
+    {
+        this.coolingPercent = coolingPercent;
     }
 
     //Alternative Implementierungsmöglichkeiten:

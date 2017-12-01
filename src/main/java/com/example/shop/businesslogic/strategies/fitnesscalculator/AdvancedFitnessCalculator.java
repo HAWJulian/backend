@@ -13,7 +13,6 @@ public class AdvancedFitnessCalculator extends AbstractFitnessCalculator
 {
     //Werte die pro fridge/freezer Produkt einer Node summiert werden (NOCOOLING = 0)
 
-    int sumEdges = 0;
     ArrayList<Integer> coolingValues;
     int bestCaseCooling;
     int worstCaseCooling;
@@ -23,33 +22,8 @@ public class AdvancedFitnessCalculator extends AbstractFitnessCalculator
     public AdvancedFitnessCalculator(Graph g)
     {
         super(g);
-        for (Edge e : g.getEdges())
-        {
-            sumEdges+=e.getWeight();
-        }
-        System.out.println("sumEdges: " + sumEdges);
         //Erwartet einen Graphen, in dem alle Artikel in den Nodes des Graphen auch gekauft werden
-        coolingValues = new ArrayList<Integer>();
-        for (Node n : g.getNodes())
-        {
-            //Summiert alle cooling werte der Artikel einer Node
-            int coolingValueNode = 0;
-            for (Article a : n.getArticles())
-            {
-                if(a.getCooling() == 1)
-                {
-                    coolingValueNode+=super.fridgeCoolingValue;
-                }
-                else if(a.getCooling() == 2)
-                {
-                    coolingValueNode+=super.freezerCoolingValue;
-                }
-            }
-            coolingValues.add(coolingValueNode);
-        }
 
-        calculateBestCaseCooling();
-        calculateWorstCaseCooling();
     }
     @Override
     public void setup(ArrayList<Float> weights)
@@ -57,29 +31,7 @@ public class AdvancedFitnessCalculator extends AbstractFitnessCalculator
         plWeight = weights.get(0);
         coolingWeight = weights.get(1);
     }
-    private void calculateBestCaseCooling()
-    {
-        bestCaseCooling =0;
-        Collections.sort(coolingValues);
-        System.out.println(coolingValues);
-        for(int i = 0; i < coolingValues.size(); i++)
-        {
-            bestCaseCooling+=(i+1) * coolingValues.get(i);
-        }
-        System.out.println(bestCaseCooling);
-    }
-    private void calculateWorstCaseCooling()
-    {
-        worstCaseCooling = 0;
-        Collections.sort(coolingValues);
-        Collections.reverse(coolingValues);
-        System.out.println(coolingValues);
-        for(int i = 0; i < coolingValues.size(); i++)
-        {
-            worstCaseCooling+= (i+1) * coolingValues.get(i);
-        }
-        System.out.println(worstCaseCooling);
-    }
+
     //Modell: a-pl = x
     //> x * plgewichtung + x * (0-1) * (gewichtung) + x * (0-1) * (gewichtung)
     //> Summe aller Gewichtungen = 1
@@ -97,7 +49,9 @@ public class AdvancedFitnessCalculator extends AbstractFitnessCalculator
         float coolingValue = super.calculateCooling(dna);
         coolingValue = (coolingValue-worstCaseCooling)/(float) (bestCaseCooling-worstCaseCooling);
         int fit = Math.round(x*plWeight+x*coolingValue*coolingWeight);
-
+        int cooling = super.calculateCooling(dna);
+        dna.setCooling(cooling);
+        dna.setCoolingPercent((float)cooling/(super.bestCaseCooling-super.worstCaseCooling));
         dna.setFitness(fit);
         return fit;
     }

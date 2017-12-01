@@ -93,6 +93,7 @@ public class GenerationInternFitnessCalculator extends AbstractFitnessCalculator
         System.out.println("fitness: " + fitness);
         System.out.println(dna.getPathLength());
         */
+        dna.setCoolingPercent((float)dna.getCooling()/(super.bestCaseCooling-super.worstCaseCooling));
         dna.setFitness(fitness);
         return fitness;
     }

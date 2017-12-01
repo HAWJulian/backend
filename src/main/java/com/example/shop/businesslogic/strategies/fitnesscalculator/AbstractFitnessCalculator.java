@@ -7,12 +7,16 @@ import com.example.shop.businesslogic.graphgen.Node;
 import com.example.shop.entities.Article;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public abstract class AbstractFitnessCalculator
 {
     Graph g;
     static final int fridgeCoolingValue = 1;
     static final int freezerCoolingValue = 5;
+    ArrayList<Integer> coolingValues;
+    int bestCaseCooling;
+    int worstCaseCooling;
     public AbstractFitnessCalculator()
     {
 
@@ -20,6 +24,45 @@ public abstract class AbstractFitnessCalculator
     public AbstractFitnessCalculator(Graph g)
     {
         this.g = g;
+        coolingValues = new ArrayList<Integer>();
+        for (Node n : g.getNodes())
+        {
+            //Summiert alle cooling werte der Artikel einer Node
+            int coolingValueNode = 0;
+            for (Article a : n.getArticles())
+            {
+                if(a.getCooling() == 1)
+                {
+                    coolingValueNode+=this.fridgeCoolingValue;
+                }
+                else if(a.getCooling() == 2)
+                {
+                    coolingValueNode+=this.freezerCoolingValue;
+                }
+            }
+            coolingValues.add(coolingValueNode);
+        }
+
+        calculatePercentageCoolingValues();
+    }
+    //Berechnet int werte für bestcase und worstcase cooling um einen prozentualen wert einer coolingorder einer dna zu berechnen
+    private void calculatePercentageCoolingValues()
+    {
+        bestCaseCooling =0;
+        Collections.sort(coolingValues);
+        System.out.println(coolingValues);
+        for(int i = 0; i < coolingValues.size(); i++)
+        {
+            bestCaseCooling+=(i+1) * coolingValues.get(i);
+        }
+        worstCaseCooling = 0;
+        Collections.sort(coolingValues);
+        Collections.reverse(coolingValues);
+        System.out.println(coolingValues);
+        for(int i = 0; i < coolingValues.size(); i++)
+        {
+            worstCaseCooling+= (i+1) * coolingValues.get(i);
+        }
     }
     public abstract void setup(ArrayList<Float> weights);
     public abstract float calculateFitness(DNA dna);
