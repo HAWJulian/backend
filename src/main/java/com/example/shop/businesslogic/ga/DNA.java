@@ -125,7 +125,8 @@ public class DNA implements Comparable<DNA>
     }
     public void setCoolingPercent(float coolingPercent)
     {
-        this.coolingPercent = coolingPercent;
+
+        this.coolingPercent = Math.round(coolingPercent*100)/100;
     }
 
     //Alternative Implementierungsmöglichkeiten:
