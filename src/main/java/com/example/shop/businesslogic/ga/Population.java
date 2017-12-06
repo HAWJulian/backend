@@ -329,6 +329,7 @@ public class Population
         // Sortiert nach der fitness (aufsteigend, je niedriger desto besser)
         Collections.sort(population);
 
+        //results.add(new ResultDTO(population.get(0), generations));
         if (generations == 0 || population.get(0).getFitness() > currentBestFitness)
         {
             System.out.println("new best fitness: " + population.get(0).getFitness() + ", pathlength: "

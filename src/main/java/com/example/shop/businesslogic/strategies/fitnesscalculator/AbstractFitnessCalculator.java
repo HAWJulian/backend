@@ -7,6 +7,7 @@ import com.example.shop.businesslogic.graphgen.Node;
 import com.example.shop.entities.Article;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 
 public abstract class AbstractFitnessCalculator
@@ -17,10 +18,6 @@ public abstract class AbstractFitnessCalculator
     ArrayList<Integer> coolingValues;
     int bestCaseCooling;
     int worstCaseCooling;
-    public AbstractFitnessCalculator()
-    {
-
-    }
     public AbstractFitnessCalculator(Graph g)
     {
         this.g = g;
@@ -44,6 +41,9 @@ public abstract class AbstractFitnessCalculator
         }
 
         calculatePercentageCoolingValues();
+        System.out.println("cooling values: " + coolingValues);
+        System.out.println("best csse cooling: " + bestCaseCooling);
+        System.out.println("worst case cooling: " + worstCaseCooling);
     }
     //Berechnet int werte für bestcase und worstcase cooling um einen prozentualen wert einer coolingorder einer dna zu berechnen
     private void calculatePercentageCoolingValues()

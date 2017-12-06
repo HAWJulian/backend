@@ -146,7 +146,8 @@ public class DNA implements Comparable<DNA>
     @Override
     public String toString()
     {
-        return "Genes: " + Arrays.toString(genes) + ", Fitness: " + fitness + ", pathlength: " + pathLength + ", Translation" + Arrays.toString(translation);
+        return "Genes: " + Arrays.toString(genes) + ", Fitness: " + fitness + ", pathlength: " + pathLength + ", Translation" + Arrays.toString(translation) + ", coolingorder: " + coolingOrder +
+                "coolingPercent: " + coolingPercent;
     }
     //CompareTo für das Vergleichen zum Sortieren von DNA in Collections
     @Override

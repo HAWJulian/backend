@@ -29,7 +29,7 @@ public class GenerationInternFitnessCalculator extends AbstractFitnessCalculator
     {
         plWeight = weights.get(0);
         coolingWeight = weights.get(1);
-        System.out.println("weights: " + weights.get(0) + ", " + weights.get(1));
+        //System.out.println("weights: " + weights.get(0) + ", " + weights.get(1));
     }
     public void evaluateGeneration(ArrayList<DNA> generation)
     {
@@ -65,6 +65,7 @@ public class GenerationInternFitnessCalculator extends AbstractFitnessCalculator
         for (DNA dna : generation)
         {
             int dnaCooling = super.calculateCooling(dna);
+            System.out.println("dna cooling: " + dnaCooling);
             dna.setCooling(dnaCooling);
             if(dnaCooling > this.bestCooling)
             {
@@ -82,6 +83,7 @@ public class GenerationInternFitnessCalculator extends AbstractFitnessCalculator
     public float calculateFitness(DNA dna)
     {
         // PL: (worst - current)/(worst - best)
+
         float plFitness = (float)(this.worstPath - dna.getPathLength()) / (float)(this.worstPath - this.bestPath);
         //System.out.println("plfitness: " + plFitness);
         //Cooling: (current - worst)/(best - worst)
@@ -93,7 +95,9 @@ public class GenerationInternFitnessCalculator extends AbstractFitnessCalculator
         System.out.println("fitness: " + fitness);
         System.out.println(dna.getPathLength());
         */
-        dna.setCoolingPercent((float)dna.getCooling()/(super.bestCaseCooling-super.worstCaseCooling));
+        System.out.println("dna with pl " + dna.getPathLength() + " and cooling value " + dna.getCooling() + " = fitness " + fitness);
+        System.out.println("calculation: " + plFitness + " * " + plWeight + " + " + coolingFitness + " * " + coolingWeight);
+        dna.setCoolingPercent((float)dna.getCooling()-super.worstCaseCooling/(super.bestCaseCooling-super.worstCaseCooling));
         dna.setFitness(fitness);
         return fitness;
     }

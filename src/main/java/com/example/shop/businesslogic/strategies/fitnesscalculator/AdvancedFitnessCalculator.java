@@ -11,11 +11,6 @@ import java.util.Collections;
 
 public class AdvancedFitnessCalculator extends AbstractFitnessCalculator
 {
-    //Werte die pro fridge/freezer Produkt einer Node summiert werden (NOCOOLING = 0)
-
-    ArrayList<Integer> coolingValues;
-    int bestCaseCooling;
-    int worstCaseCooling;
     private float plWeight;
     private float coolingWeight;
 
@@ -47,11 +42,11 @@ public class AdvancedFitnessCalculator extends AbstractFitnessCalculator
         int x = 100000 - pathlength;
         //System.out.println(coolingOrder);
         float coolingValue = super.calculateCooling(dna);
-        coolingValue = (coolingValue-worstCaseCooling)/(float) (bestCaseCooling-worstCaseCooling);
+        coolingValue = (coolingValue-super.worstCaseCooling)/(float) (super.bestCaseCooling-super.worstCaseCooling);
         int fit = Math.round(x*plWeight+x*coolingValue*coolingWeight);
         int cooling = super.calculateCooling(dna);
         dna.setCooling(cooling);
-        dna.setCoolingPercent((float)cooling/(super.bestCaseCooling-super.worstCaseCooling));
+        dna.setCoolingPercent((float)cooling-super.worstCaseCooling/(super.bestCaseCooling-super.worstCaseCooling));
         dna.setFitness(fit);
         return fit;
     }
