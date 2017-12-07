@@ -37,6 +37,7 @@ public class Population
     int populationSize;
     Graph g;
     float currentBestFitness;
+    DNA currentBestDNA;
     Random rdm;
     AbstractFitnessCalculator afc;
     CombineStrategy cs;
@@ -202,6 +203,7 @@ public class Population
         // Sortiert die Population nach der Fitness (aufsteigend)
         Collections.sort(population);
         currentBestFitness = population.get(0).getFitness();
+        currentBestDNA = population.get(0);
         // System.out.println(currentBestFitness);
         // generations - currentBestGeneration < 400
         //TODO fitness scaling?
@@ -255,7 +257,7 @@ public class Population
         {
             // float relativeFitness = 1+remap(population.get(i).getFitness(),
             // 0, currentBestFitness, 1,0);
-            float relativeFitness = remap(population.get(i).getFitness(), currentBestFitness,
+            float relativeFitness = remap(population.get(i).getFitness(), population.get(0).getFitness(),
                     population.get(populationSize - 1).getFitness(), 1, 0);
             // System.out.println("relativeFitness: " + relativeFitness);
             long n = Math.round(Math.pow(relativeFitness, selectionWeight) * 100);
@@ -330,7 +332,7 @@ public class Population
         Collections.sort(population);
 
         //results.add(new ResultDTO(population.get(0), generations));
-        if (generations == 0 || population.get(0).getFitness() > currentBestFitness)
+        if (generations == 0 || population.get(0).getFitness() > afc.calculateFitness(currentBestDNA))
         {
             System.out.println("new best fitness: " + population.get(0).getFitness() + ", pathlength: "
                     + population.get(0).getPathLength() + " in iteration " + generations);
@@ -357,11 +359,11 @@ public class Population
             System.out.println(cooling);
 
             currentBestGeneration = generations + 1;
+            // Definier currentBestFitness als das beste Element der aktuellen
+            currentBestFitness = population.get(0).getFitness();
+            currentBestDNA = population.get(0);
         }
-        // Definier currentBestFitness als das beste Element der aktuellen
-        // Generation (kann nie schlechter werden, da
-        // das beste Ergebnis immer in die nächste Generation übernommen wird
-        currentBestFitness = population.get(0).getFitness();
+
         // Zähle generations hoch (counter für die Anzahl an erzeugten
         // Generationen)
         generations++;
