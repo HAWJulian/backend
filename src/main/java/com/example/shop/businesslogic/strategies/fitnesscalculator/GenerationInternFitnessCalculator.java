@@ -57,15 +57,15 @@ public class GenerationInternFitnessCalculator extends AbstractFitnessCalculator
                 this.worstPath = pathlength;
             }
         }
-        System.out.println("best pathlength after evaluation: " + this.bestPath);
-        System.out.println("worst pathlength after evaluation: " + this.worstPath);
+        //System.out.println("best pathlength after evaluation: " + this.bestPath);
+        //System.out.println("worst pathlength after evaluation: " + this.worstPath);
     }
     private void calculateCooling(ArrayList<DNA> generation)
     {
         for (DNA dna : generation)
         {
             int dnaCooling = super.calculateCooling(dna);
-            System.out.println("dna cooling: " + dnaCooling);
+            //System.out.println("dna cooling: " + dnaCooling);
             dna.setCooling(dnaCooling);
             if(dnaCooling > this.bestCooling)
             {
@@ -87,7 +87,16 @@ public class GenerationInternFitnessCalculator extends AbstractFitnessCalculator
         float plFitness = (float)(this.worstPath - dna.getPathLength()) / (float)(this.worstPath - this.bestPath);
         //System.out.println("plfitness: " + plFitness);
         //Cooling: (current - worst)/(best - worst)
-        float coolingFitness = (float)(dna.getCooling() - this.worstCooling) / (float)(this.bestCooling - this.worstCooling);
+        float coolingFitness=0f;
+        if(this.bestCooling == this.worstCooling)
+        {
+            coolingFitness = (float)(dna.getCooling() - this.worstCooling);
+        }
+        else
+        {
+            coolingFitness = (float)(dna.getCooling() - this.worstCooling) / (float)(this.bestCooling - this.worstCooling);
+        }
+
         //System.out.println("coolingfitness: " + coolingFitness);
         //Multiplication with 1000 for better visibility
         float fitness = (plFitness*plWeight+coolingFitness*coolingWeight)*1000;
@@ -95,10 +104,19 @@ public class GenerationInternFitnessCalculator extends AbstractFitnessCalculator
         System.out.println("fitness: " + fitness);
         System.out.println(dna.getPathLength());
         */
-        System.out.println("dna with pl " + dna.getPathLength() + " and cooling value " + dna.getCooling() + " = fitness " + fitness);
-        System.out.println("calculation: " + plFitness + " * " + plWeight + " + " + coolingFitness + " * " + coolingWeight);
-        dna.setCoolingPercent((float)dna.getCooling()-super.worstCaseCooling/(super.bestCaseCooling-super.worstCaseCooling));
+        //System.out.println("dna with pl " + dna.getPathLength() + " and cooling value " + dna.getCooling() + " = fitness " + fitness);
+        //System.out.println("calculation: " + plFitness + " * " + plWeight + " + " + coolingFitness + " * " + coolingWeight);
+        if(super.bestCaseCooling == super.worstCaseCooling)
+        {
+            dna.setCoolingPercent(1f);
+        }
+        else
+        {
+            dna.setCoolingPercent((float)dna.getCooling()-super.worstCaseCooling/(super.bestCaseCooling-super.worstCaseCooling));
+        }
+
         dna.setFitness(fitness);
+        //System.out.println("set fitness to: " + dna.getFitness());
         return fitness;
     }
 }

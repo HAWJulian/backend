@@ -20,7 +20,11 @@ public class TimeTermination extends TerminationStrategy
     {
 
     }
+    @Override
+    public void improvement(DNA improvement)
+    {
 
+    }
     @Override
     public boolean checkTermination()
     {

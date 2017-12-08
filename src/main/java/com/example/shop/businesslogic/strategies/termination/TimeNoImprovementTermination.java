@@ -20,13 +20,19 @@ public class TimeNoImprovementTermination extends TerminationStrategy
     @Override
     public void update(ArrayList<DNA> generation)
     {
+        /*
         if(generation.get(0).getFitness() > currentBestFitness)
         {
             currentBestFitness = (int) generation.get(0).getFitness();
             lastNew = Instant.now();
         }
+        */
     }
-
+    @Override
+    public void improvement(DNA improvement)
+    {
+        lastNew = Instant.now();
+    }
     @Override
     public boolean checkTermination()
     {

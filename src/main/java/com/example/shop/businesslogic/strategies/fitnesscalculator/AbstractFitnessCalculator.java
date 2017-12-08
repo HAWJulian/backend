@@ -112,6 +112,7 @@ public abstract class AbstractFitnessCalculator
         {
             dnaCooling+=(i+1) * coolingOrder.get(i);
         }
+        dna.setCooling(dnaCooling);
         return dnaCooling;
     }
 }

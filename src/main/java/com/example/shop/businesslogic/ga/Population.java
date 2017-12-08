@@ -228,6 +228,7 @@ public class Population
             afc.calculatePathlength(child);
             afc.calculateCooling(child);
             afc.calculateFitness(child);
+            System.out.println("child: " + child);
         }
     }
     public ArrayList<ResultDTO> execute()
@@ -259,6 +260,7 @@ public class Population
             // 0, currentBestFitness, 1,0);
             float relativeFitness = remap(population.get(i).getFitness(), population.get(0).getFitness(),
                     population.get(populationSize - 1).getFitness(), 1, 0);
+            System.out.println("relative fitness: "+ relativeFitness);
             // System.out.println("relativeFitness: " + relativeFitness);
             long n = Math.round(Math.pow(relativeFitness, selectionWeight) * 100);
             for (int j = 0; j < n; j++)
@@ -324,6 +326,7 @@ public class Population
         }
         //population.clear();
         //population.addAll(nextGeneration);
+
         calcFitnessChildren(nextGeneration);
         population = rs.replace(population,nextGeneration);
         // berechnet die fitness aller DNA Objekte in population
@@ -332,10 +335,13 @@ public class Population
         Collections.sort(population);
 
         //results.add(new ResultDTO(population.get(0), generations));
+        //System.out.println("current best: " + currentBestDNA);
+        //System.out.println("population 0 : "+population.get(0));
         if (generations == 0 || population.get(0).getFitness() > afc.calculateFitness(currentBestDNA))
         {
+            ts.improvement(population.get(0));
             System.out.println("new best fitness: " + population.get(0).getFitness() + ", pathlength: "
-                    + population.get(0).getPathLength() + " in iteration " + generations);
+                    + population.get(0).getPathLength() + "cooling: " + population.get(0).getCooling() + " in iteration " + generations);
             //Print der cooling verteilung einer DNA
             results.add(new ResultDTO(population.get(0), generations));
             ArrayList<Integer> cooling = new ArrayList<Integer>();

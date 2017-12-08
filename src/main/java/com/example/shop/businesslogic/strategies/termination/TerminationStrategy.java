@@ -13,4 +13,5 @@ public abstract class TerminationStrategy
     }
     public abstract void update(ArrayList<DNA> generation);
     public abstract boolean checkTermination();
+    public abstract void improvement(DNA improvement);
 }

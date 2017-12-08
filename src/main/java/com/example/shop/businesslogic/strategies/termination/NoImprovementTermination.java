@@ -7,7 +7,7 @@ import java.util.ArrayList;
 public class NoImprovementTermination extends TerminationStrategy
 {
 
-    int currentBestFitness;
+    float currentBestFitness;
     int noImprovementIterations;
     public NoImprovementTermination(int param)
     {
@@ -19,17 +19,25 @@ public class NoImprovementTermination extends TerminationStrategy
     @Override
     public void update(ArrayList<DNA> generation)
     {
+        /*
         if(generation.get(0).getFitness() > currentBestFitness)
         {
-            currentBestFitness = (int) generation.get(0).getFitness();
+            currentBestFitness = generation.get(0).getFitness();
             noImprovementIterations = 0;
         }
         else
         {
             noImprovementIterations++;
         }
+        */
+        noImprovementIterations++;
     }
 
+    @Override
+    public void improvement(DNA improvement)
+    {
+        noImprovementIterations=0;
+    }
     @Override
     public boolean checkTermination()
     {

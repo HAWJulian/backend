@@ -12,7 +12,11 @@ public class IterationTermination extends TerminationStrategy
         super(param);
         this.amtIterations = 0;
     }
+    @Override
+    public void improvement(DNA improvement)
+    {
 
+    }
     @Override
     public void update(ArrayList<DNA> generation)
     {
