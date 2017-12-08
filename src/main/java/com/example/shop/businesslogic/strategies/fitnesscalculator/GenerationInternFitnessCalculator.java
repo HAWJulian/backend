@@ -76,8 +76,8 @@ public class GenerationInternFitnessCalculator extends AbstractFitnessCalculator
                 this.worstCooling = dnaCooling;
             }
         }
-        System.out.println("best coolinig after evaluation: " + this.bestCooling);
-        System.out.println("worst cooling after evaluation: " + this.worstCooling);
+        //System.out.println("best coolinig after evaluation: " + this.bestCooling);
+        //System.out.println("worst cooling after evaluation: " + this.worstCooling);
     }
     @Override
     public float calculateFitness(DNA dna)

@@ -29,6 +29,7 @@ import java.util.Random;
 
 public class Population
 {
+    private ArrayList<DNA> inResults;
     float mutationrate;
     int currentBestGeneration = 0;
     ArrayList<DNA> population;
@@ -63,6 +64,7 @@ public class Population
     {
         System.out.println("started population");
         results = new ArrayList<ResultDTO>();
+        inResults = new ArrayList<>();
         rdm = new Random();
         population = new ArrayList<DNA>();
         matingPool = new ArrayList<DNA>();
@@ -228,7 +230,7 @@ public class Population
             afc.calculatePathlength(child);
             afc.calculateCooling(child);
             afc.calculateFitness(child);
-            System.out.println("child: " + child);
+            //System.out.println("child: " + child);
         }
     }
     public ArrayList<ResultDTO> execute()
@@ -260,7 +262,7 @@ public class Population
             // 0, currentBestFitness, 1,0);
             float relativeFitness = remap(population.get(i).getFitness(), population.get(0).getFitness(),
                     population.get(populationSize - 1).getFitness(), 1, 0);
-            System.out.println("relative fitness: "+ relativeFitness);
+            //System.out.println("relative fitness: "+ relativeFitness);
             // System.out.println("relativeFitness: " + relativeFitness);
             long n = Math.round(Math.pow(relativeFitness, selectionWeight) * 100);
             for (int j = 0; j < n; j++)
@@ -339,35 +341,23 @@ public class Population
         //System.out.println("population 0 : "+population.get(0));
         if (generations == 0 || population.get(0).getFitness() > afc.calculateFitness(currentBestDNA))
         {
-            ts.improvement(population.get(0));
+
             System.out.println("new best fitness: " + population.get(0).getFitness() + ", pathlength: "
                     + population.get(0).getPathLength() + "cooling: " + population.get(0).getCooling() + " in iteration " + generations);
             //Print der cooling verteilung einer DNA
-            results.add(new ResultDTO(population.get(0), generations));
-            ArrayList<Integer> cooling = new ArrayList<Integer>();
-            for (Integer i : population.get(0).getTranslation())
+            if(!inResults.contains(population.get(0)))
             {
-                int coolingInNode = 0;
-                for (Article a : g.getNodeById(i).getArticles())
-                {
-                    if(a.getCooling() == 2)
-                    {
-                        coolingInNode+=5;
-                    }
-                    else if(a.getCooling() == 1)
-                    {
-                        coolingInNode+=1;
-                    }
-                }
-                cooling.add(coolingInNode);
+                results.add(new ResultDTO(population.get(0), generations));
+                inResults.add(population.get(0));
+                ts.improvement(population.get(0));
+                currentBestGeneration = generations + 1;
+                // Definier currentBestFitness als das beste Element der aktuellen
+                currentBestFitness = population.get(0).getFitness();
+                currentBestDNA = population.get(0);
             }
 
-            System.out.println(cooling);
 
-            currentBestGeneration = generations + 1;
-            // Definier currentBestFitness als das beste Element der aktuellen
-            currentBestFitness = population.get(0).getFitness();
-            currentBestDNA = population.get(0);
+
         }
 
         // Zähle generations hoch (counter für die Anzahl an erzeugten
