@@ -18,7 +18,7 @@ public class BestIndividualsReplacement extends ReplacementStrategy
         while(nextGen.size() < populationsize)
         {
             DNA nextDNA = parents.get(0);
-            parents.remove(nextDNA);
+            parents.remove(0);
             if(!nextGen.contains(nextDNA))
             {
                 nextGen.add(nextDNA);

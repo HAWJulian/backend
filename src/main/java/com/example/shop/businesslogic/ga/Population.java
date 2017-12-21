@@ -194,11 +194,14 @@ public class Population
                 rs = new ChildrenReplacement();
                 break;
         }
-        for (int i = 0; i < populationSize; i++)
+        while (population.size() < populationSize)
         {
             DNA toAdd = new DNA(amtNodes, reducedIdOrder);
             toAdd.randomize();
-            population.add(toAdd);
+            if(!population.contains(toAdd))
+            {
+                population.add(toAdd);
+            }
         }
         // Berechnet die Fitness aller DNA in population
         calculateFitness();
@@ -265,7 +268,7 @@ public class Population
             //System.out.println("relative fitness: "+ relativeFitness);
             // System.out.println("relativeFitness: " + relativeFitness);
             long n = Math.round(Math.pow(relativeFitness, selectionWeight) * 100);
-            for (int j = 0; j < n; j++)
+            for (int j = 0; j < n+1; j++)
             {
                 matingPool.add(population.get(i));
             }
